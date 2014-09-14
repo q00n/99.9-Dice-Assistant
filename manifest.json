@@ -1,0 +1,30 @@
+{
+  "manifest_version": 2,
+
+  "name": "999Dice Helper",
+  "version": "0.1",
+
+  "background": {
+    "scripts": ["/app/background.js"]
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["https://www.999dice.com/*"],
+      "js": ["/app/injector.js"],
+      "run_at": "document_end"
+    }
+  ],
+
+  "permissions": [
+    "tabs",
+    "notifications",
+    "background"
+  ],
+
+  "web_accessible_resources": [
+    "/app/config.js",
+    "/app/options.js",
+    "/app/script.js"
+  ]
+}

@@ -1,0 +1,5 @@
+const EXTENSION_NAME = "999Dice Helper";
+
+const NOTIFICATION_ENABLED = true;
+const AUDIO_NOTIFICATION_ENABLED = true;
+const AUDIO_NOTIFICATION_TYPE_DEFAULT = "sine";
