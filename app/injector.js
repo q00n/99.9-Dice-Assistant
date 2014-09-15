@@ -3,7 +3,7 @@
     scripts.forEach(function (item)
     {
         document.getElementsByTagName("body")[0].appendChild(script = document.createElement('script'));
-        script.setAttribute('src', chrome.extension.getURL("/app/"+item+".js"));
+        script.setAttribute('src', chrome.extension.getURL(item+".js"));
     });
 
     window.addEventListener("message", function(event)
@@ -13,4 +13,5 @@
             chrome.extension.sendMessage({command: event.data.command, data: event.data.data}, function(){});
         }
     }, false);
-}(["config","options","script"]));
+
+}(["/app/config","/com/options","/app/script"]));

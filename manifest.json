@@ -5,7 +5,11 @@
   "version": "0.1",
 
   "background": {
-    "scripts": ["/app/background.js"]
+    "scripts": [
+      "/com/options.js",
+      "/app/config.js",
+      "/app/background.js"
+    ]
   },
 
   "content_scripts": [
@@ -23,8 +27,11 @@
   ],
 
   "web_accessible_resources": [
+    "/com/options.js",
     "/app/config.js",
     "/app/options.js",
     "/app/script.js"
-  ]
+  ],
+
+  "options_page": "options.html"
 }

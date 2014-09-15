@@ -1,43 +1,8 @@
-var options = new Options({
-    'rain.notification.enabled': RAIN_NOTIFICATION_ENABLED,
-    'rain.audio-notification.enabled': RAIN_AUDIO_NOTIFICATION_ENABLED,
-    'rain.audio-notification.type': RAIN_AUDIO_NOTIFICATION_TYPE_DEFAULT,
-
-    'chat.notification.enabled': CHAT_NOTIFICATION_ENABLED,
-    'chat.audio-notification.enabled': CHAT_AUDIO_NOTIFICATION_ENABLED,
-    'chat.audio-notification.type': CHAT_AUDIO_NOTIFICATION_TYPE_DEFAULT
-});
-
 var is_focused = true;
 
-var beep = (function() {
-    var ctx = new(window.audioContext || window.webkitAudioContext);
-    return function(duration, type, finishedCallback) {
-
-        duration = +duration;
-
-        if (typeof finishedCallback != "function") {
-            finishedCallback = function() {};
-        }
-
-        var osc = ctx.createOscillator();
-
-        osc.type = type;
-
-        osc.connect(ctx.destination);
-        osc.noteOn(0);
-
-        setTimeout(function() {
-            osc.noteOff(0);
-            finishedCallback();
-        }, duration);
-
-    };
-}());
-
-function send_command(com, data)
+function send_command(cmd, data)
 {
-    window.postMessage({type:"DICE_HELPER", command: com, data: data}, "*");
+    window.postMessage({type:"DICE_HELPER", command: cmd, data: data}, "*");
 }
 
 (function init_rain_notification()
@@ -60,12 +25,7 @@ function send_command(com, data)
 	    view.controls.openCollectRainBox()
 	});
 	if (t && n > 2 && ($("#ChatTab").is(":not(:visible)") || !is_focused)) {
-	    if (options.get("rain.audio-notification.enabled")){
-		beep(1000, options.get("notification.audio-type"));
-	    }
-	    if (options.get("rain.notification.enabled")){
-		send_command("SHOW_NOTIFICATION", {title: EXTENSION_NAME, body: "Раздача началась!"});
-	    }
+	    send_command("NOTIFICATE", {initiator: "rain", title: EXTENSION_NAME, body: "Раздача началась!"});
 	}
 	!t || i.fadeTo(n * 1e3, .1);
 	setTimeout(function () {
@@ -88,12 +48,7 @@ function send_command(com, data)
 		y = f.indexOf("@" + data.user.friendlyName + ":") === 0;
 		h.text(f).attr("class", y ? "ChatTextToMe" : "ChatText")
 		if (y && ($("#ChatTab").is(":not(:visible)") || !is_focused)) {
-		    if (options.get("chat.audio-notification.enabled")){
-			beep(1000, options.get("notification.audio-type"));
-		    }
-		    if (options.get("chat.notification.enabled")){
-			send_command('SHOW_NOTIFICATION', {title: r, body: f.trim().replace("@"+data.user.friendlyName+": ", "")});
-		    }
+		    send_command("NOTIFICATE", {initiator: "chat", title: r, body: f.trim().replace("@"+data.user.friendlyName+": ", "")});
 		}
 	    } else {
 		if (f.depositAddress) {
