@@ -41,3 +41,19 @@ var bp = chrome.extension.getBackgroundPage();
         bp.options.set("chat.notification.type", this.id.split('-')[1]);
     });
 }());
+
+(function init_chat_announced_bets_option(){
+    $("#announced-bets")[0].checked = bp.options.get("chat.announced-bets.hide");
+
+    $("#announced-bets").change(function () {
+        this.checked ? bp.options.set("chat.announced-bets.hide", true) : bp.options.set("chat.announced-bets.hide",false);
+    });
+}());
+
+(function init_chat_command_menu_option(){
+    $("#command-menu")[0].checked = bp.options.get("chat.command-menu.enabled");
+
+    $("#command-menu").change(function () {
+        this.checked ? bp.options.set("chat.command-menu.enabled", true) : bp.options.set("chat.command-menu.enabled",false);
+    });
+}());

@@ -1,51 +1,64 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>999Dice Helper | Настройки</title>
+    <title>999Dice Assistant | Настройки</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" type="text/css" href="/css/style.css" media="screen">
     <script type="text/javascript" src="/lib/jquery.js"></script>
 </head>
 <body>
     <div id="container">
+	<h1>Настройки</h1>
         <div id="content">
             <div class="box">
                 <div class="section">
                     <h1>Раздача BTC</h1>
-                    <input type="checkbox" id="rain-started-notificate">
-                    <label for="rain-started-notificate"><span></span>Оповещать о начале раздачи</label>
-                    <div class="group" id="rain-started-options">
-                        <div class="sub-group">
-                            <input type="radio" id="rain-simple" name="rr">
-                            <label for="rain-simple"><span></span>Простое оповещение</label>
-                        </div>
-                        <div class="sub-group">
-                            <input type="radio" id="rain-audio" name="rr">
-                            <label for="rain-audio"><span></span>Звуковое оповещение</label>
-                        </div>
-                        <div class="sub-group">
-                            <input type="radio" id="rain-simple_audio" name="rr">
-                            <label for="rain-simple_audio"><span></span>Простое + Звуковое оповещение</label>
+                    <div class="group">
+                        <input type="checkbox" id="rain-started-notificate">
+                        <label for="rain-started-notificate"><span></span>Оповещать о начале раздачи</label>
+                        <div class="group" id="rain-started-options">
+                            <div class="sub-group">
+                                <input type="radio" id="rain-simple" name="rr">
+                                <label for="rain-simple"><span></span>Простое оповещение</label>
+                            </div>
+                            <div class="sub-group">
+                                <input type="radio" id="rain-audio" name="rr">
+                                <label for="rain-audio"><span></span>Звуковое оповещение</label>
+                            </div>
+                            <div class="sub-group">
+                                <input type="radio" id="rain-simple_audio" name="rr">
+                                <label for="rain-simple_audio"><span></span>Простое + Звуковое оповещение</label>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="section">
                     <h1>Чат</h1>
-                    <input type="checkbox" id="chat-to-me">
-                    <label for="chat-to-me"><span></span>Оповещать о полученом сообщении</label>
-                    <div class="group" id="chat-to-me-options">
-                        <div class="sub-group">
-                            <input type="radio" id="chat-simple" name="ctmr">
-                            <label for="chat-simple"><span></span>Простое оповещение</label>
+                    <div class="group">
+                        <input type="checkbox" id="chat-to-me">
+                        <label for="chat-to-me"><span></span>Оповещать о полученом сообщении</label>
+                        <div class="group" id="chat-to-me-options">
+                            <div class="sub-group">
+                                <input type="radio" id="chat-simple" name="ctmr">
+                                <label for="chat-simple"><span></span>Простое оповещение</label>
+                            </div>
+                            <div class="sub-group">
+                                <input type="radio" id="chat-audio" name="ctmr">
+                                <label for="chat-audio"><span></span>Звуковое оповещение</label>
+                            </div>
+                            <div class="sub-group">
+                                <input type="radio" id="chat-simple_audio" name="ctmr">
+                                <label for="chat-simple_audio"><span></span>Простое + Звуковое оповещение</label>
+                            </div>
                         </div>
-                        <div class="sub-group">
-                            <input type="radio" id="chat-audio" name="ctmr">
-                            <label for="chat-audio"><span></span>Звуковое оповещение</label>
-                        </div>
-                        <div class="sub-group">
-                            <input type="radio" id="chat-simple_audio" name="ctmr">
-                            <label for="chat-simple_audio"><span></span>Простое + Звуковое оповещение</label>
-                        </div>
+                    </div>
+                    <div class="group">
+                        <input type="checkbox" id="announced-bets">
+                        <label for="announced-bets"><span></span>Скрывать анонсированые ставки</label>
+                    </div>
+                    <div class="group">
+                        <input type="checkbox" id="command-menu">
+                        <label for="command-menu"><span></span>Меню команд</label>
                     </div>
                 </div>
             </div>

@@ -1,16 +1,18 @@
 {
   "manifest_version": 2,
 
-  "name": "999Dice Helper",
+  "name": "99.9% Dice Assistant",
   "version": "0.1",
 
-  "background": {
-    "scripts": [
-      "/com/options.js",
-      "/app/config.js",
-      "/app/background.js"
-    ]
-  },
+  "icons": {"16":  "icons/16.png",
+            "48":  "icons/48.png",
+            "128": "icons/128.png"},
+
+  "permissions": [
+    "tabs",
+    "notifications",
+    "background"
+  ],
 
   "content_scripts": [
     {
@@ -20,18 +22,24 @@
     }
   ],
 
-  "permissions": [
-    "tabs",
-    "notifications",
-    "background"
-  ],
-
   "web_accessible_resources": [
     "/com/options.js",
     "/app/config.js",
     "/app/options.js",
     "/app/script.js"
   ],
+
+  "background": {
+    "scripts": [
+      "/com/options.js",
+      "/app/config.js",
+      "/app/background.js"
+    ]
+  },
+
+  "externally_connectable": {
+    "matches": ["https://www.999dice.com/*"]
+  },
 
   "options_page": "options.html"
 }
