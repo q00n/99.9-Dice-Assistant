@@ -34,8 +34,9 @@ function send_command(cmd, data, callback)
 	var cached_function = view.addChatLine;
 
 	return function(n, t, i, r, u, f, e, o) {
+	    if (($("#ChatTab").is(":not(:visible)") || !is_focused) && typeof o == 'object' && typeof f == 'string' && f.indexOf("@" + data.user.friendlyName + ":") === 0)
 	    send_command("GET_OPTION", {option: "chat.notification.enabled"}, function(response){
-		if (response.value && (($("#ChatTab").is(":not(:visible)") || !is_focused) && typeof o == 'object' && typeof f == 'string' && f.indexOf("@" + data.user.friendlyName + ":") === 0)){
+		if (response.value){
 		    send_command("NOTIFICATE", {initiator: "chat", title: r, body: f.trim().replace("@"+data.user.friendlyName+": ", "")});
 		}
 	    });
