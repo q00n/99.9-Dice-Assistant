@@ -57,6 +57,13 @@ var beep = (function() {
 		case "GET_OPTION":
 		    sendResponse({value: options.get(request.data.option)});
 		break;
+		case "GET_MESSAGES":
+		    var messages = {};
+		    for (var m in request.data.messages){
+			messages[request.data.messages[m]] = chrome.i18n.getMessage(request.data.messages[m]);
+		    }
+		    sendResponse(messages);
+		break;
 	    }
     });
 

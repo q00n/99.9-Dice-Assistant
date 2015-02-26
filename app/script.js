@@ -1,5 +1,9 @@
 var is_focused;
 
+var i18n_messages = send_command("GET_MESSAGES", {messages: ["ext_name","rain_started","balance","deposit","ignores","ignore_balance","unignore_balance","ignore_deposit","unignore_deposit","clear_chat","whois","rules"]}, function (response){
+   i18n_messages = response;
+});
+
 function send_command(cmd, data, callback)
 {
     chrome.runtime.sendMessage(extension_id, {command: cmd, data: data}, function(response) {
@@ -15,7 +19,7 @@ function send_command(cmd, data, callback)
 	return function() {
 	    send_command("GET_OPTION", {option: "rain.notification.enabled"}, function(response){
 		if ($("#ChatTab").is(":not(:visible)") || !is_focused && response.value) {
-		    send_command("NOTIFICATE", {initiator: "rain", title: EXTENSION_NAME, body: "Раздача началась!"});
+		    send_command("NOTIFICATE", {initiator: "rain", title: i18n_messages.ext_name, body: i18n_messages.rain_started});
 		}
 	    });
 
@@ -63,16 +67,16 @@ function send_command(cmd, data, callback)
 		var t = $("<div id='ChatNameContextMenu'/>");
 		n.preventDefault();
 		$("#ChatNameContextMenu").remove();
-		$("<span class='MenuItem'/>").text("Баланс").click("/balance", view.controls.sendChatCommand).appendTo(t);
-		$("<span class='MenuItem'/>").text("Депозит").click("/deposit", view.controls.sendChatCommand).appendTo(t);
-		$("<span class='MenuItem'/>").text("Черный список").click("/ignores", view.controls.sendChatCommand).appendTo(t);
-		$("<span class='MenuItem'/>").text("Игнорировать балансы").click("/ignorebalance", view.controls.sendChatCommand).appendTo(t);
-		$("<span class='MenuItem'/>").text("Не игнорировать балансы").click("/unignorebalance", view.controls.sendChatCommand).appendTo(t);
-		$("<span class='MenuItem'/>").text("Игнорировать депозиты").click("/ignoredeposit", view.controls.sendChatCommand).appendTo(t);
-		$("<span class='MenuItem'/>").text("Не игнорировать депозиты").click("/unignoredeposit", view.controls.sendChatCommand).appendTo(t);
-		$("<span class='MenuItem'/>").text("Очистить чат").click("/clear", view.controls.sendChatCommand).appendTo(t);
-		$("<span class='MenuItem'/>").text("Инфо о...").click(function (){$("#ChatTabText").val("/whois ")}).appendTo(t);
-		$("<span class='MenuItem'/>").text("Правила").click("/rules", view.controls.sendChatCommand).appendTo(t);
+		$("<span class='MenuItem'/>").text(i18n_messages.balance).click("/balance", view.controls.sendChatCommand).appendTo(t);
+		$("<span class='MenuItem'/>").text(i18n_messages.deposit).click("/deposit", view.controls.sendChatCommand).appendTo(t);
+		$("<span class='MenuItem'/>").text(i18n_messages.ignores).click("/ignores", view.controls.sendChatCommand).appendTo(t);
+		$("<span class='MenuItem'/>").text(i18n_messages.ignore_balance).click("/ignorebalance", view.controls.sendChatCommand).appendTo(t);
+		$("<span class='MenuItem'/>").text(i18n_messages.unignore_balance).click("/unignorebalance", view.controls.sendChatCommand).appendTo(t);
+		$("<span class='MenuItem'/>").text(i18n_messages.ignore_deposit).click("/ignoredeposit", view.controls.sendChatCommand).appendTo(t);
+		$("<span class='MenuItem'/>").text(i18n_messages.unignore_deposit).click("/unignoredeposit", view.controls.sendChatCommand).appendTo(t);
+		$("<span class='MenuItem'/>").text(i18n_messages.clear_chat).click("/clear", view.controls.sendChatCommand).appendTo(t);
+		$("<span class='MenuItem'/>").text(i18n_messages.whois).click(function (){$("#ChatTabText").val("/whois "); $("#ChatTabText").focus()}).appendTo(t);
+		$("<span class='MenuItem'/>").text(i18n_messages.rules).click("/rules", view.controls.sendChatCommand).appendTo(t);
 		t.css("left", n.pageX - $(window).scrollLeft()).css("top", n.pageY - $(window).scrollTop() - 212);
 		view.addWithInvisibleBackground(t);
 	    }

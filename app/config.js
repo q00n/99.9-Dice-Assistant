@@ -1,5 +1,3 @@
-const EXTENSION_NAME = "99.9% Dice Assistant";
-
 const RAIN_NOTIFICATION_ENABLED = true;
 const RAIN_NOTIFICATION_TYPE = "simple";
 const RAIN_AUDIO_NOTIFICATION_TYPE = "sine";

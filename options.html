@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>999Dice Assistant | Настройки</title>
+    <title>99.9% Dice Помощник | Настройки</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" type="text/css" href="/css/style.css" media="screen">
     <script type="text/javascript" src="/lib/jquery.js"></script>
 </head>
 <body>
     <div id="container">
-	<h1>Настройки</h1>
+	<h1 id="settings-header">Настройки</h1>
         <div id="content">
             <div class="box">
-                <div class="section">
-                    <h1>Раздача BTC</h1>
+                <div class="section" id="rain-section">
+                    <h1>Раздача BTC/DOGE/LTC</h1>
                     <div class="group">
                         <input type="checkbox" id="rain-started-notificate">
                         <label for="rain-started-notificate"><span></span>Оповещать о начале раздачи</label>
@@ -32,7 +32,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="section">
+                <div class="section" id="chat-section">
                     <h1>Чат</h1>
                     <div class="group">
                         <input type="checkbox" id="chat-to-me">
@@ -52,11 +52,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="group">
+                    <div class="group" id="announced_bets-section">
                         <input type="checkbox" id="announced-bets">
                         <label for="announced-bets"><span></span>Скрывать анонсированые ставки</label>
                     </div>
-                    <div class="group">
+                    <div class="group" id="command_menu-section">
                         <input type="checkbox" id="command-menu">
                         <label for="command-menu"><span></span>Меню команд</label>
                     </div>

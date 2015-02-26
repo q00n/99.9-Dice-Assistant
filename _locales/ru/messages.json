@@ -1,0 +1,27 @@
+{
+    "ext_name":                      {"message": "99.9% Dice Помощник"},
+
+    "options_title":                 {"message": "99.9% Dice Помощник | Настройки"},
+    "settings":                      {"message": "Настройки"},
+    "rain_options":                  {"message": "Раздача BTC/DOGE/LTC"},
+    "chat_options":                  {"message": "Чат"},
+    "rain_notification_enabled":     {"message": "Оповещать о начале раздачи"},
+    "chat_notification_enabled":     {"message": "Оповещать о полученом сообщении"},
+        "simple_notification":       {"message": "Простое оповещение"},
+        "audio_notification":        {"message": "Звуковое оповещение"},
+        "simple_audio_notification": {"message": "Простое + Звуковое оповещение"},
+    "hide_announced_bets":           {"message": "Скрывать анонсированые ставки"},
+    "command_menu_enabled":          {"message": "Меню команд"},
+
+    "rain_started":                  {"message": "Раздача началась!"},
+    "balance":                       {"message": "Баланс"},
+    "deposit":                       {"message": "Депозит"},
+    "ignores":                       {"message": "Черный список"},
+    "ignore_balance":                {"message": "Игнорировать балансы"},
+    "unignore_balance":              {"message": "Не игнорировать балансы"},
+    "ignore_deposit":                {"message": "Игнорировать депозиты"},
+    "unignore_deposit":              {"message": "Не игнорировать депозиты"},
+    "clear_chat":                    {"message": "Очистить чат"},
+    "whois":                         {"message": "Кто такой..."},
+    "rules":                         {"message": "Правила"}
+}
