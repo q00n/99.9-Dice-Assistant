@@ -18,9 +18,9 @@
     "deposit":                       {"message": "Депозит"},
     "ignores":                       {"message": "Чорний список"},
     "ignore_balance":                {"message": "Приховувати баланси"},
-    "unignore_balance":              {"message": "Не приховувати баланси"},
+    "unignore_balance":              {"message": "Відображати баланси"},
     "ignore_deposit":                {"message": "Приховувати депозити"},
-    "unignore_deposit":              {"message": "Не приховувати депозити"},
+    "unignore_deposit":              {"message": "Відображати депозити"},
     "clear_chat":                    {"message": "Очистити чат"},
     "whois":                         {"message": "Хто такий..."},
     "rules":                         {"message": "Правила"}
