@@ -18,9 +18,8 @@ function send_command(cmd, data, callback)
 
 	return function() {
 	    send_command("GET_OPTION", {option: "rain.notification.enabled"}, function(response){
-		if ($("#ChatTab").is(":not(:visible)") || !is_focused && response.value) {
+		if ($("#ChatTab").is(":not(:visible)") || !is_focused && response.value)
 		    send_command("NOTIFICATE", {initiator: "rain", title: i18n_messages.ext_name, body: i18n_messages.rain_started});
-		}
 	    });
 
 	    cached_function.apply(this, arguments);
@@ -36,9 +35,8 @@ function send_command(cmd, data, callback)
 	return function(n, t, i, r, u, f, e, o) {
 	    if (($("#ChatTab").is(":not(:visible)") || !is_focused) && typeof o == 'object' && typeof f == 'string' && f.indexOf("@" + data.user.friendlyName + ":") === 0)
 	    send_command("GET_OPTION", {option: "chat.notification.enabled"}, function(response){
-		if (response.value){
+		if (response.value)
 		    send_command("NOTIFICATE", {initiator: "chat", title: r, body: f.trim().replace("@"+data.user.friendlyName+": ", "")});
-		}
 	    });
 
 	    cached_function.apply(this, arguments);
@@ -54,7 +52,8 @@ function send_command(cmd, data, callback)
 	return function() {
 	    var arg = arguments;
 	    send_command("GET_OPTION", {option: "chat.announced-bets.hide"}, function(response){
-		if (!response.value) cached_function.apply(this, arg);
+		if (!response.value)
+		    cached_function.apply(this, arg);
 	    });
 	};
     }());
@@ -101,13 +100,11 @@ function send_command(cmd, data, callback)
 
 (function init_focus_cheker()
 {
-    window.addEventListener('focus', function()
-    {
+    window.addEventListener('focus', function(){
 	is_focused = true;
     });
 
-    window.addEventListener('blur', function()
-    {
+    window.addEventListener('blur', function(){
     	is_focused = false;
     });
 }());
