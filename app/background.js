@@ -43,13 +43,13 @@ var beep = (function() {
 		case "NOTIFICATE":
 		    switch (options.get(request.data.initiator+".notification.type")) {
 			case "simple":
-			    show_notification(request.data, {index: sender.tab.index, windowId: sender.tab.windowId});
+			    show_notification(request.data, {id: sender.tab.id, windowId: sender.tab.windowId});
 			break;
 			case "audio":
 			    beep(1000, options.get(request.data.initiator+".audio-notification.type"));
 			break;
 			case "simple_audio":
-			    show_notification(request.data, {index: sender.tab.index, windowId: sender.tab.windowId});
+			    show_notification(request.data, {id: sender.tab.id, windowId: sender.tab.windowId});
 			    beep(1000, options.get(request.data.initiator+".audio-notification.type"));
 			break;
 		    }
@@ -78,8 +78,8 @@ var beep = (function() {
 	}, function() {});
 
 	chrome.notifications.onClicked.addListener(function(){
-	    chrome.windows.update(tab.windowId, {focused: true}, function (){})
-	    chrome.tabs.highlight({windowId: tab.windowId, tabs: tab.index}, function (){})
+	    chrome.windows.update(tab.windowId, {focused: true});
+	    chrome.tabs.update(tab.id, {highlighted: true});
 	});
     };
 }());
