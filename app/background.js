@@ -12,10 +12,10 @@ var options = new Options({
 
 var beep = (function() {
     var ctx = new(window.audioContext || window.AudioContext);
-    return function(duration, type, finishedCallback) {
-
-        duration = +duration;
-
+    return function(duration, type, startedCallback, finishedCallback) {
+	if (typeof startedCallback != "function") {
+            startedCallback = function() {};
+        }
         if (typeof finishedCallback != "function") {
             finishedCallback = function() {};
         }
@@ -26,14 +26,16 @@ var beep = (function() {
 
         osc.connect(ctx.destination);
         osc.start(0);
+	startedCallback(osc);
 
         setTimeout(function() {
             osc.stop(0);
             finishedCallback();
         }, duration);
-
     };
 }());
+
+var cached_osc;
 
 (function init_handler()
 {
@@ -46,13 +48,16 @@ var beep = (function() {
 			    show_notification(request.data, {id: sender.tab.id, windowId: sender.tab.windowId});
 			break;
 			case "audio":
-			    beep(1000, options.get(request.data.initiator+".audio-notification.type"));
+			    beep(request.data.duration, options.get(request.data.initiator+".audio-notification.type"), function(osc){cached_osc = osc});
 			break;
 			case "simple_audio":
 			    show_notification(request.data, {id: sender.tab.id, windowId: sender.tab.windowId});
-			    beep(1000, options.get(request.data.initiator+".audio-notification.type"));
+			    beep(request.data.duration, options.get(request.data.initiator+".audio-notification.type"), function(osc){cached_osc = osc});
 			break;
 		    }
+		break;
+		case "MUTE":
+		    cached_osc.stop(0);
 		break;
 		case "GET_OPTION":
 		    sendResponse({value: options.get(request.data.option)});
