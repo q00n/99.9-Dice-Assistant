@@ -11,7 +11,7 @@ var options = new Options({
 });
 
 var beep = (function() {
-    var ctx = new(window.audioContext || window.webkitAudioContext);
+    var ctx = new(window.audioContext || window.AudioContext);
     return function(duration, type, finishedCallback) {
 
         duration = +duration;
@@ -25,10 +25,10 @@ var beep = (function() {
         osc.type = type;
 
         osc.connect(ctx.destination);
-        osc.noteOn(0);
+        osc.start(0);
 
         setTimeout(function() {
-            osc.noteOff(0);
+            osc.stop(0);
             finishedCallback();
         }, duration);
 
