@@ -17,7 +17,6 @@ function send_command(cmd, data, callback)
 	var cached_function = pipe.events.rainStarted = view.pipeevents.rainStarted;
 
 	return function(n) {
-	    console.log(n);
 	    send_command("GET_OPTION", {option: "rain.notification.enabled"}, function(response){
 		if ($("#ChatTab").is(":not(:visible)") || !is_focused && response.value)
 		    send_command("NOTIFICATE", {initiator: "rain", title: i18n_messages.ext_name, body: i18n_messages.rain_started, duration: n*1e3});
@@ -37,7 +36,7 @@ function send_command(cmd, data, callback)
 	    if (($("#ChatTab").is(":not(:visible)") || !is_focused) && typeof o == 'object' && typeof f == 'string' && f.indexOf("@" + data.user.friendlyName + ":") === 0)
 	    send_command("GET_OPTION", {option: "chat.notification.enabled"}, function(response){
 		if (response.value)
-		    send_command("NOTIFICATE", {initiator: "chat", title: r, body: f.trim().replace("@"+data.user.friendlyName+": ", "")});
+		    send_command("NOTIFICATE", {initiator: "chat", title: r, body: f.trim().replace("@"+data.user.friendlyName+":", ""), duration: 1e3});
 	    });
 
 	    cached_function.apply(this, arguments);
@@ -104,9 +103,9 @@ function send_command(cmd, data, callback)
     window.addEventListener('focus', function(){
 	is_focused = true;
 	    if (view.pipeevents.rainFadeTimer)
-		send_command("GET_OPTION", {option: "rain.notification.enabled"}, function(response){
-		    if (response.value) send_command("MUTE");
-		});
+	    send_command("GET_OPTION", {option: "rain.notification.enabled"}, function(response){
+		if (response.value) send_command("MUTE");
+	    });
     });
 
     window.addEventListener('blur', function(){
