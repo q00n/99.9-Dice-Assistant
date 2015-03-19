@@ -1,37 +1,27 @@
 var options = new Options({
-    "rain.notification.enabled": RAIN_NOTIFICATION_ENABLED,
-    "rain.notification.type": RAIN_NOTIFICATION_TYPE,
+    "rain.notification.enabled":    RAIN_NOTIFICATION_ENABLED,
+    "rain.notification.type":       RAIN_NOTIFICATION_TYPE,
     "rain.audio-notification.type": RAIN_AUDIO_NOTIFICATION_TYPE,
 
-    "chat.notification.enabled": CHAT_NOTIFICATION_ENABLED,
-    "chat.notification.type": CHAT_NOTIFICATION_TYPE,
+    "chat.notification.enabled":    CHAT_NOTIFICATION_ENABLED,
+    "chat.notification.type":       CHAT_NOTIFICATION_TYPE,
     "chat.audio-notification.type": CHAT_AUDIO_NOTIFICATION_TYPE,
-    "chat.announced-bets.hide": CHAT_ANNOUNCED_BETS_HIDE,
-    "chat.command-menu.enabled": CHAT_COMMAND_MENU_ENABLED
+    "chat.announced-bets.hide":     CHAT_ANNOUNCED_BETS_HIDE,
+    "chat.command-menu.enabled":    CHAT_COMMAND_MENU_ENABLED
 });
 
 var beep = (function() {
     var ctx = new(window.audioContext || window.AudioContext);
-    return function(duration, type, startedCallback, finishedCallback) {
-	if (typeof startedCallback != "function") {
-            startedCallback = function() {};
-        }
-        if (typeof finishedCallback != "function") {
-            finishedCallback = function() {};
-        }
-
+    return function(duration, type, callback) {
         var osc = ctx.createOscillator();
-
         osc.type = type;
 
         osc.connect(ctx.destination);
         osc.start(0);
-	startedCallback(osc);
 
-        setTimeout(function() {
-            osc.stop(0);
-            finishedCallback();
-        }, duration);
+	(typeof callback == "function" && callback(osc));
+
+        setTimeout(function() { osc.stop(0); }, duration);
     };
 }());
 
@@ -48,11 +38,11 @@ var cached_osc;
 			    show_notification(request.data, {id: sender.tab.id, windowId: sender.tab.windowId});
 			break;
 			case "audio":
-			    beep(request.data.duration, options.get(request.data.initiator+".audio-notification.type"), function(osc){cached_osc = osc});
+			    beep(request.data.duration, options.get(request.data.initiator+".audio-notification.type"), (request.data.initiator == "rain" && function(osc){cached_osc = osc}));
 			break;
 			case "simple_audio":
 			    show_notification(request.data, {id: sender.tab.id, windowId: sender.tab.windowId});
-			    beep(request.data.duration, options.get(request.data.initiator+".audio-notification.type"), function(osc){cached_osc = osc});
+			    beep(request.data.duration, options.get(request.data.initiator+".audio-notification.type"), (request.data.initiator == "rain" && function(osc){cached_osc = osc}));
 			break;
 		    }
 		break;
