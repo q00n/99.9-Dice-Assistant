@@ -22,12 +22,7 @@
     }
   ],
 
-  "web_accessible_resources": [
-    "/com/options.js",
-    "/app/config.js",
-    "/app/options.js",
-    "/app/script.js"
-  ],
+  "web_accessible_resources": ["/app/script.js"],
 
   "background": {
     "scripts": [
