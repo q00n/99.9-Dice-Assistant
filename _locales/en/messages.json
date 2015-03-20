@@ -1,5 +1,6 @@
 {
     "ext_name":                      {"message": "99.9% Dice Assistant"},
+    "ext_desc":                      {"message": "Extends the functionality of the site, thus helping you to avoid missing the rain, in time to see incoming messages and much more!"},
 
     "options_title":                 {"message": "99.9% Dice Assistant | Settings"},
     "settings":                      {"message": "Settings"},

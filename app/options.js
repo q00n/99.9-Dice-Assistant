@@ -29,7 +29,7 @@ var bp = chrome.extension.getBackgroundPage();
     $("#rain-started-notificate")[0].checked ? $("#rain-started-options").show() : $("#rain-started-options").hide();
 
     $("#rain-started-notificate").change(function () {
-        this.checked ? $("#rain-started-options").show("fast") && bp.options.set("rain.notification.enabled", true) : $("#rain-started-options").hide("fast") && bp.options.set("rain.notification.enabled",false);
+        this.checked ? $("#rain-started-options").show("fast") && bp.options.set("rain.notification.enabled", true) : $("#rain-started-options").hide("fast") && bp.options.set("rain.notification.enabled", false);
     });
 
     $("#rain-simple")[0].checked = (bp.options.get("rain.notification.type") == "simple");
@@ -50,7 +50,7 @@ var bp = chrome.extension.getBackgroundPage();
     $("#chat-to-me")[0].checked ? $("#chat-to-me-options").show() : $("#chat-to-me-options").hide();
 
     $("#chat-to-me").change(function () {
-        this.checked ? $("#chat-to-me-options").show("fast") && bp.options.set("chat.notification.enabled", true) : $("#chat-to-me-options").hide("fast") && bp.options.set("chat.notification.enabled",false);
+        this.checked ? $("#chat-to-me-options").show("fast") && bp.options.set("chat.notification.enabled", true) : $("#chat-to-me-options").hide("fast") && bp.options.set("chat.notification.enabled", false);
     });
 
     $("#chat-simple")[0].checked = (bp.options.get("chat.notification.type") == "simple");
@@ -68,7 +68,7 @@ var bp = chrome.extension.getBackgroundPage();
     $("#announced-bets")[0].checked = bp.options.get("chat.announced-bets.hide");
 
     $("#announced-bets").change(function () {
-        this.checked ? bp.options.set("chat.announced-bets.hide", true) : bp.options.set("chat.announced-bets.hide",false);
+        this.checked ? bp.options.set("chat.announced-bets.hide", true) : bp.options.set("chat.announced-bets.hide", false);
     });
 }());
 
@@ -76,6 +76,6 @@ var bp = chrome.extension.getBackgroundPage();
     $("#command-menu")[0].checked = bp.options.get("chat.command-menu.enabled");
 
     $("#command-menu").change(function () {
-        this.checked ? bp.options.set("chat.command-menu.enabled", true) : bp.options.set("chat.command-menu.enabled",false);
+        this.checked ? bp.options.set("chat.command-menu.enabled", true) : bp.options.set("chat.command-menu.enabled", false);
     });
 }());
