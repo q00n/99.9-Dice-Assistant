@@ -1,3 +1,22 @@
+/*
+ * This file is part of 99.9% Dice Assistant extension for Google Chrome browser
+ *
+ * Copyright (c) 2015 Ilya Petriv
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 var is_focused;
 
 var i18n_messages = send_command("GET_MESSAGES", {messages: ["ext_name","rain_started","balance","deposit","ignores","ignore_balance","unignore_balance","ignore_deposit","unignore_deposit","clear_chat","whois","rules"]}, function (response){
@@ -7,7 +26,7 @@ var i18n_messages = send_command("GET_MESSAGES", {messages: ["ext_name","rain_st
 function send_command(cmd, data, callback)
 {
     chrome.runtime.sendMessage(extension_id, {command: cmd, data: data}, function(response) {
-	typeof callback === 'function' && callback(response);
+	typeof callback === "function" && callback(response);
     });
 }
 
@@ -33,7 +52,7 @@ function send_command(cmd, data, callback)
 	var cached_function = view.addChatLine;
 
 	return function(n, t, i, r, u, f, e, o) {
-	    if (($("#ChatTab").is(":not(:visible)") || !is_focused) && typeof o == 'object' && typeof f == 'string' && f.indexOf("@" + data.user.friendlyName + ":") === 0)
+	    if (($("#ChatTab").is(":not(:visible)") || !is_focused) && typeof o == "object" && typeof f == "string" && f.indexOf("@" + data.user.friendlyName + ":") === 0)
 	    send_command("GET_OPTION", {option: "chat.notification.enabled"}, function(response){
 		if (response.value)
 		    send_command("NOTIFICATE", {initiator: "chat", title: r, body: f.trim().replace("@"+data.user.friendlyName+":", ""), duration: 1e3});
@@ -93,14 +112,14 @@ function send_command(cmd, data, callback)
 		}
 	    }
 	    $("#ChatTabSendButton").css("border-radius", "12px 0px 0px 12px");
-	    $("#ChatTabSendButton").after($('<span />').addClass('TextButton').css({borderRadius: "0px 12px 12px 0px", marginLeft: "-3px"}).text('+').click(view.controls.chatCommandMenu));
+	    $("#ChatTabSendButton").after($("<span />").addClass("TextButton").css({borderRadius: "0px 12px 12px 0px", marginLeft: "-3px"}).text("+").click(view.controls.chatCommandMenu));
 	}
     });
 }());
 
 (function init_focus_cheker()
 {
-    window.addEventListener('focus', function(){
+    window.addEventListener("focus", function(){
 	is_focused = true;
 	    if (view.pipeevents.rainFadeTimer)
 	    send_command("GET_OPTION", {option: "rain.notification.enabled"}, function(response){
@@ -108,7 +127,7 @@ function send_command(cmd, data, callback)
 	    });
     });
 
-    window.addEventListener('blur', function(){
+    window.addEventListener("blur", function(){
     	is_focused = false;
     });
 }());
