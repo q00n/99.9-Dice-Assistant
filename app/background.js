@@ -1,3 +1,22 @@
+/*
+ * This file is part of 99.9% Dice Assistant extension for Google Chrome browser
+ *
+ * Copyright (c) 2015 Ilya Petriv
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 var options = new Options({
     "rain.notification.enabled":    RAIN_NOTIFICATION_ENABLED,
     "rain.notification.type":       RAIN_NOTIFICATION_TYPE,
@@ -12,20 +31,23 @@ var options = new Options({
 
 var beep = (function() {
     var ctx = new(window.audioContext || window.AudioContext);
-    return function(duration, type, callback) {
+    return function(duration, type, started_callback, finished_callback) {
         var osc = ctx.createOscillator();
         osc.type = type;
 
         osc.connect(ctx.destination);
         osc.start(0);
 
-	(typeof callback == "function" && callback(osc));
+	(typeof started_callback == "function" && started_callback(osc));
 
-        setTimeout(function() { osc.stop(0); }, duration);
+        setTimeout(function() {
+	    osc.stop(0);
+	    (typeof finished_callback == "function" && finished_callback());
+	}, duration);
     };
 }());
 
-var cached_osc;
+var cached_osc, tab_data = {};
 
 (function init_handler()
 {
@@ -38,16 +60,19 @@ var cached_osc;
 			    show_notification(request.data, {id: sender.tab.id, windowId: sender.tab.windowId});
 			break;
 			case "audio":
-			    beep(request.data.duration, options.get(request.data.initiator+".audio-notification.type"), (request.data.initiator == "rain" && function(osc){cached_osc = osc}));
+			    if (request.data.initiator == "rain" && cached_osc) return;
+			    beep(request.data.duration, options.get(request.data.initiator+".audio-notification.type"), (request.data.initiator == "rain" && function(osc){cached_osc = osc}), (request.data.initiator == "rain" && function(){cached_osc = null}));
 			break;
 			case "simple_audio":
+			    if (request.data.initiator == "rain" && cached_osc) return;
 			    show_notification(request.data, {id: sender.tab.id, windowId: sender.tab.windowId});
-			    beep(request.data.duration, options.get(request.data.initiator+".audio-notification.type"), (request.data.initiator == "rain" && function(osc){cached_osc = osc}));
+			    beep(request.data.duration, options.get(request.data.initiator+".audio-notification.type"), (request.data.initiator == "rain" && function(osc){cached_osc = osc}), (request.data.initiator == "rain" && function(){cached_osc = null}));
 			break;
 		    }
 		break;
 		case "MUTE":
-		    cached_osc.stop(0);
+		    (cached_osc && cached_osc.stop(0));
+		    cached_osc = null;
 		break;
 		case "GET_OPTION":
 		    sendResponse({value: options.get(request.data.option)});
@@ -62,6 +87,9 @@ var cached_osc;
 	    }
     });
 
+    chrome.notifications.onClicked.addListener(notification_click);
+    chrome.notifications.onClosed.addListener(notification_close);
+
     function show_notification(data, tab)
     {
 	chrome.notifications.create("",
@@ -70,11 +98,21 @@ var cached_osc;
 	    iconUrl:  "/icons/128.png",
 	    title:    data.title,
 	    message:  data.body,
-	}, function() {});
-
-	chrome.notifications.onClicked.addListener(function(){
-	    chrome.windows.update(tab.windowId, {focused: true});
-	    chrome.tabs.update(tab.id, {highlighted: true});
-	});
+	}, function(id) { tab_data[id] = tab;});
     };
+
+    function notification_click(id)
+    {
+	if (!tab_data[id]) return;
+
+	chrome.windows.update(tab_data[id].windowId, {focused: true});
+	chrome.tabs.update(tab_data[id].id, {active: true});
+	chrome.notifications.clear(id, function(){});
+	notification_close(id);
+    }
+
+    function notification_close(id)
+    {
+	delete tab_data[id];
+    }
 }());
