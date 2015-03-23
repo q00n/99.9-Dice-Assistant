@@ -71,8 +71,7 @@ var cached_osc, tab_data = {};
 		    }
 		break;
 		case "MUTE":
-		    (cached_osc && cached_osc.stop(0));
-		    cached_osc = null;
+		    cached_osc && (cached_osc.stop(0), cached_osc = null);
 		break;
 		case "GET_OPTION":
 		    sendResponse({value: options.get(request.data.option)});
@@ -98,21 +97,24 @@ var cached_osc, tab_data = {};
 	    iconUrl:  "/icons/128.png",
 	    title:    data.title,
 	    message:  data.body,
-	}, function(id) { tab_data[id] = tab;});
+	}, function(id) { tab_data[id] = tab; });
     };
 
     function notification_click(id)
     {
-	if (!tab_data[id]) return;
+	tab_data[id] && chrome.tabs.get(tab_data[id].id, function callback() {
+	    if (!chrome.runtime.lastError){
+		chrome.windows.update(tab_data[id].windowId, {focused: true});
+		chrome.tabs.update(tab_data[id].id, {active: true});
+	    }
 
-	chrome.windows.update(tab_data[id].windowId, {focused: true});
-	chrome.tabs.update(tab_data[id].id, {active: true});
-	chrome.notifications.clear(id, function(){});
-	notification_close(id);
+	    chrome.notifications.clear(id, function(){});
+	    notification_close(id);
+	});
     }
 
     function notification_close(id)
     {
-	delete tab_data[id];
+	tab_data[id] && delete tab_data[id];
     }
 }());

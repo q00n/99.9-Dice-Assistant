@@ -111,8 +111,7 @@ function send_command(cmd, data, callback)
 		    i || pipe.server.sendChatText(config.chat.currentRoomId, t)
 		}
 	    }
-	    $("#ChatTabSendButton").css("border-radius", "12px 0px 0px 12px");
-	    $("#ChatTabSendButton").after($("<span />").addClass("TextButton").css({borderRadius: "0px 12px 12px 0px", marginLeft: "-3px"}).text("+").click(view.controls.chatCommandMenu));
+	    $("#ChatTabSendButton").css("border-radius", "12px 0px 0px 12px").after($("<span />").addClass("TextButton").css({borderRadius: "0px 12px 12px 0px", marginLeft: "-3px"}).text("+").click(view.controls.chatCommandMenu));
 	}
     });
 }());
