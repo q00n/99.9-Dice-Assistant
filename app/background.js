@@ -31,6 +31,7 @@ var options = new Options({
 
 var beep = (function() {
     var ctx = new(window.audioContext || window.AudioContext);
+
     return function(duration, type, started_callback, finished_callback) {
         var osc = ctx.createOscillator();
         osc.type = type;
@@ -38,52 +39,61 @@ var beep = (function() {
         osc.connect(ctx.destination);
         osc.start(0);
 
-	(typeof started_callback == "function" && started_callback(osc));
+        (typeof started_callback == "function" && started_callback(osc));
 
         setTimeout(function() {
-	    osc.stop(0);
-	    (typeof finished_callback == "function" && finished_callback());
-	}, duration);
+            osc.stop(0);
+            (typeof finished_callback == "function" && finished_callback());
+        }, duration);
     };
 }());
 
-var cached_osc, tab_data = {};
+var cached_osc, tab_data = {}, is_rain;
 
 (function init_handler()
 {
     chrome.runtime.onMessageExternal.addListener(
-	function(request, sender, sendResponse) {
-	    switch (request.command) {
-		case "NOTIFICATE":
-		    switch (options.get(request.data.initiator+".notification.type")) {
-			case "simple":
-			    show_notification(request.data, {id: sender.tab.id, windowId: sender.tab.windowId});
-			break;
-			case "audio":
-			    if (request.data.initiator == "rain" && cached_osc) return;
-			    beep(request.data.duration, options.get(request.data.initiator+".audio-notification.type"), (request.data.initiator == "rain" && function(osc){cached_osc = osc}), (request.data.initiator == "rain" && function(){cached_osc = null}));
-			break;
-			case "simple_audio":
-			    if (request.data.initiator == "rain" && cached_osc) return;
-			    show_notification(request.data, {id: sender.tab.id, windowId: sender.tab.windowId});
-			    beep(request.data.duration, options.get(request.data.initiator+".audio-notification.type"), (request.data.initiator == "rain" && function(osc){cached_osc = osc}), (request.data.initiator == "rain" && function(){cached_osc = null}));
-			break;
-		    }
-		break;
-		case "MUTE":
-		    cached_osc && (cached_osc.stop(0), cached_osc = null);
-		break;
-		case "GET_OPTION":
-		    sendResponse({value: options.get(request.data.option)});
-		break;
-		case "GET_MESSAGES":
-		    var messages = {};
-		    for (var m in request.data.messages){
-			messages[request.data.messages[m]] = chrome.i18n.getMessage(request.data.messages[m]);
-		    }
-		    sendResponse(messages);
-		break;
-	    }
+    function(request, sender, sendResponse) {
+        switch (request.command) {
+            case "NOTIFICATE":
+                is_rain = request.data.initiator == "rain";
+                switch (options.get(request.data.initiator+".notification.type")) {
+                    case "simple":
+                        show_notification(request.data, {id: sender.tab.id, windowId: sender.tab.windowId});
+                    break;
+                    case "audio":
+                        if (is_rain && cached_osc) return;
+                        beep(request.data.duration,
+                            options.get(request.data.initiator+".audio-notification.type"),
+                            is_rain && function(osc){cached_osc = osc},
+                            is_rain && function(){cached_osc = null}
+                        );
+                    break;
+                    case "simple_audio":
+                        if (is_rain && cached_osc) return;
+                        show_notification(request.data, {id: sender.tab.id, windowId: sender.tab.windowId});
+                        beep(request.data.duration,
+                             options.get(request.data.initiator+".audio-notification.type"),
+                             is_rain && function(osc){cached_osc = osc},
+                             is_rain && function(){cached_osc = null}
+                        );
+                    break;
+                }
+            break;
+            case "MUTE":
+                cached_osc && (cached_osc.stop(0), cached_osc = null);
+            break;
+            case "GET_OPTION":
+                sendResponse({value: options.get(request.data.option)});
+            break;
+            case "GET_MESSAGES":
+                var messages = {};
+                for (var m in request.data.messages){
+                    messages[request.data.messages[m]] = chrome.i18n.getMessage(request.data.messages[m]);
+                }
+                sendResponse(messages);
+            break;
+        }
     });
 
     chrome.notifications.onClicked.addListener(notification_click);
@@ -91,30 +101,30 @@ var cached_osc, tab_data = {};
 
     function show_notification(data, tab)
     {
-	chrome.notifications.create("",
-	{
-	    type:     "basic",
-	    iconUrl:  "/icons/128.png",
-	    title:    data.title,
-	    message:  data.body,
-	}, function(id) { tab_data[id] = tab; });
+        chrome.notifications.create("",
+        {
+            type:    "basic",
+            iconUrl: "/icons/128.png",
+            title:   data.title,
+            message: data.body,
+        }, function(id) { tab_data[id] = tab; });
     };
 
     function notification_click(id)
     {
-	tab_data[id] && chrome.tabs.get(tab_data[id].id, function callback() {
-	    if (!chrome.runtime.lastError){
-		chrome.windows.update(tab_data[id].windowId, {focused: true});
-		chrome.tabs.update(tab_data[id].id, {active: true});
-	    }
+        tab_data[id] && chrome.tabs.get(tab_data[id].id, function callback() {
+            if (!chrome.runtime.lastError){
+                chrome.windows.update(tab_data[id].windowId, {focused: true});
+                chrome.tabs.update(tab_data[id].id, {active: true});
+            }
 
-	    chrome.notifications.clear(id, function(){});
-	    notification_close(id);
-	});
+            chrome.notifications.clear(id, function(){});
+            notification_close(id);
+        });
     }
 
     function notification_close(id)
     {
-	tab_data[id] && delete tab_data[id];
+        tab_data[id] && delete tab_data[id];
     }
 }());
