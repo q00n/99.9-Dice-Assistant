@@ -30,7 +30,7 @@ var options = new Options({
 });
 
 var beep = (function() {
-    var ctx = new(window.audioContext || window.AudioContext);
+    var ctx = new window.AudioContext;
 
     return function(duration, type, started_callback, finished_callback) {
         var osc = ctx.createOscillator();
@@ -88,9 +88,8 @@ var cached_osc, tab_data = {}, is_rain;
             break;
             case "GET_MESSAGES":
                 var messages = {};
-                for (var m in request.data.messages){
+                for (var m in request.data.messages)
                     messages[request.data.messages[m]] = chrome.i18n.getMessage(request.data.messages[m]);
-                }
                 sendResponse(messages);
             break;
         }

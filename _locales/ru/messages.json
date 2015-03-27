@@ -7,11 +7,11 @@
     "rain_options":                  {"message": "Раздача BTC/DOGE/LTC"},
     "chat_options":                  {"message": "Чат"},
     "rain_notification_enabled":     {"message": "Оповещать о начале раздачи"},
-    "chat_notification_enabled":     {"message": "Оповещать о полученом сообщении"},
+    "chat_notification_enabled":     {"message": "Оповещать о получении сообщения"},
         "simple_notification":       {"message": "Простое оповещение"},
         "audio_notification":        {"message": "Звуковое оповещение"},
         "simple_audio_notification": {"message": "Простое + звуковое оповещение"},
-    "hide_announced_bets":           {"message": "Скрывать анонсированые ставки"},
+    "hide_announced_bets":           {"message": "Скрывать анонсированные ставки"},
     "command_menu_enabled":          {"message": "Меню команд"},
 
     "rain_started":                  {"message": "Раздача началась!"},

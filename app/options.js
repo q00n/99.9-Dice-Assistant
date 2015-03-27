@@ -25,20 +25,24 @@ var bp = chrome.extension.getBackgroundPage();
     $("#rain-section h1").text(chrome.i18n.getMessage("rain_options"));
     $("#chat-section h1").text(chrome.i18n.getMessage("chat_options"));
 
-    $("label[for='rain-started-notificate']").contents().last().replaceWith(chrome.i18n.getMessage("rain_notification_enabled"));
-    $("label[for='chat-to-me-notificate']").contents().last().replaceWith(chrome.i18n.getMessage("chat_notification_enabled"));
+    innerText_i18n($("label[for='rain-started-notificate']"), chrome.i18n.getMessage("rain_notification_enabled"));
+    innerText_i18n($("label[for='chat-to-me-notificate']"), chrome.i18n.getMessage("chat_notification_enabled"));
 
-    $("label[for='rain-simple']").contents().last().replaceWith(chrome.i18n.getMessage("simple_notification"));
-    $("label[for='rain-audio']").contents().last().replaceWith(chrome.i18n.getMessage("audio_notification"));
-    $("label[for='rain-simple_audio']").contents().last().replaceWith(chrome.i18n.getMessage("simple_audio_notification"));
+    innerText_i18n($("label[for='rain-simple']"), chrome.i18n.getMessage("simple_notification"));
+    innerText_i18n($("label[for='rain-audio']"), chrome.i18n.getMessage("audio_notification"));
+    innerText_i18n($("label[for='rain-simple_audio']"), chrome.i18n.getMessage("simple_audio_notification"));
 
-    $("label[for='chat-simple']").contents().last().replaceWith(chrome.i18n.getMessage("simple_notification"));
-    $("label[for='chat-audio']").contents().last().replaceWith(chrome.i18n.getMessage("audio_notification"));
-    $("label[for='chat-simple_audio']").contents().last().replaceWith(chrome.i18n.getMessage("simple_audio_notification"));
+    innerText_i18n($("label[for='chat-simple']"), chrome.i18n.getMessage("simple_notification"));
+    innerText_i18n($("label[for='chat-audio']"), chrome.i18n.getMessage("audio_notification"));
+    innerText_i18n($("label[for='chat-simple_audio']"), chrome.i18n.getMessage("simple_audio_notification"));
 
-    $("label[for='announced-bets']").contents().last().replaceWith(chrome.i18n.getMessage("hide_announced_bets"));
+    innerText_i18n($("label[for='announced-bets']"), chrome.i18n.getMessage("hide_announced_bets"));
 
-    $("label[for='command-menu']").contents().last().replaceWith(chrome.i18n.getMessage("command_menu_enabled"));
+    innerText_i18n($("label[for='command-menu']"), chrome.i18n.getMessage("command_menu_enabled"));
+
+    function innerText_i18n(object, message){
+        $(object).contents().last().replaceWith(message);
+    }
 })();
 
 (function init_rain_notificate_option()
@@ -49,7 +53,7 @@ var bp = chrome.extension.getBackgroundPage();
 
     $("#rain-started-notificate").change(function () {
         $("#rain-started-options").toggle("fast");
-        bp.options.set("rain.notification.enabled", $("#rain-started-notificate")[0].checked);
+        bp.options.set("rain.notification.enabled", this.checked);
     });
 
     $("#rain-" + bp.options.get("rain.notification.type")).prop('checked', true);
@@ -67,7 +71,7 @@ var bp = chrome.extension.getBackgroundPage();
 
     $("#chat-to-me-notificate").change(function () {
         $("#chat-to-me-options").toggle("fast");
-        bp.options.set("chat.notification.enabled", $("#chat-to-me-notificate")[0].checked);
+        bp.options.set("chat.notification.enabled", this.checked);
     });
 
     $("#chat-" + bp.options.get("chat.notification.type")).prop('checked', true);
@@ -81,7 +85,7 @@ var bp = chrome.extension.getBackgroundPage();
     $("#announced-bets")[0].checked = bp.options.get("chat.announced-bets.hide");
 
     $("#announced-bets").change(function () {
-        this.checked ? bp.options.set("chat.announced-bets.hide", true) : bp.options.set("chat.announced-bets.hide", false);
+        bp.options.set("chat.announced-bets.hide", this.checked);
     });
 }());
 
@@ -89,6 +93,6 @@ var bp = chrome.extension.getBackgroundPage();
     $("#command-menu")[0].checked = bp.options.get("chat.command-menu.enabled");
 
     $("#command-menu").change(function () {
-        this.checked ? bp.options.set("chat.command-menu.enabled", true) : bp.options.set("chat.command-menu.enabled", false);
+        bp.options.set("chat.command-menu.enabled", this.checked);
     });
 }());
