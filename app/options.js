@@ -21,27 +21,28 @@ var bp = chrome.extension.getBackgroundPage();
 
 (function init_i18n() {
     document.title = chrome.i18n.getMessage("options_title");
-    $("#settings-header").text(chrome.i18n.getMessage("settings"));
-    $("#rain-section h1").text(chrome.i18n.getMessage("rain_options"));
-    $("#chat-section h1").text(chrome.i18n.getMessage("chat_options"));
 
-    innerText_i18n($("label[for='rain-started-notificate']"), chrome.i18n.getMessage("rain_notification_enabled"));
-    innerText_i18n($("label[for='chat-to-me-notificate']"), chrome.i18n.getMessage("chat_notification_enabled"));
+    innerText_i18n($("#settings-header"), "settings");
+    innerText_i18n($("#rain-section h1"), "rain_options");
+    innerText_i18n($("#chat-section h1"), "chat_options");
 
-    innerText_i18n($("label[for='rain-simple']"), chrome.i18n.getMessage("simple_notification"));
-    innerText_i18n($("label[for='rain-audio']"), chrome.i18n.getMessage("audio_notification"));
-    innerText_i18n($("label[for='rain-simple_audio']"), chrome.i18n.getMessage("simple_audio_notification"));
+    innerText_i18n($("label[for='rain-started-notificate']"), "rain_notification_enabled");
+    innerText_i18n($("label[for='chat-to-me-notificate']"), "chat_notification_enabled");
 
-    innerText_i18n($("label[for='chat-simple']"), chrome.i18n.getMessage("simple_notification"));
-    innerText_i18n($("label[for='chat-audio']"), chrome.i18n.getMessage("audio_notification"));
-    innerText_i18n($("label[for='chat-simple_audio']"), chrome.i18n.getMessage("simple_audio_notification"));
+    innerText_i18n($("label[for='rain-simple']"), "simple_notification");
+    innerText_i18n($("label[for='rain-audio']"), "audio_notification");
+    innerText_i18n($("label[for='rain-simple_audio']"), "simple_audio_notification");
 
-    innerText_i18n($("label[for='announced-bets']"), chrome.i18n.getMessage("hide_announced_bets"));
+    innerText_i18n($("label[for='chat-simple']"), "simple_notification");
+    innerText_i18n($("label[for='chat-audio']"), "audio_notification");
+    innerText_i18n($("label[for='chat-simple_audio']"), "simple_audio_notification");
 
-    innerText_i18n($("label[for='command-menu']"), chrome.i18n.getMessage("command_menu_enabled"));
+    innerText_i18n($("label[for='announced-bets']"), "hide_announced_bets");
+
+    innerText_i18n($("label[for='command-menu']"), "command_menu_enabled");
 
     function innerText_i18n(object, message){
-        $(object).contents().last().replaceWith(message);
+        $(object).contents().last().replaceWith(chrome.i18n.getMessage(message));
     }
 })();
 
@@ -49,7 +50,7 @@ var bp = chrome.extension.getBackgroundPage();
 {
     $("#rain-started-notificate")[0].checked = bp.options.get("rain.notification.enabled");
 
-    $("#rain-started-notificate")[0].checked ? $("#rain-started-options").show() : $("#rain-started-options").hide();
+    $("#rain-started-options").toggle($("#rain-started-notificate")[0].checked);
 
     $("#rain-started-notificate").change(function () {
         $("#rain-started-options").toggle("fast");
@@ -67,7 +68,7 @@ var bp = chrome.extension.getBackgroundPage();
 {
     $("#chat-to-me-notificate")[0].checked = bp.options.get("chat.notification.enabled");
 
-    $("#chat-to-me-notificate")[0].checked ? $("#chat-to-me-options").show() : $("#chat-to-me-options").hide();
+    $("#chat-to-me-options").toggle($("#chat-to-me-notificate")[0].checked);
 
     $("#chat-to-me-notificate").change(function () {
         $("#chat-to-me-options").toggle("fast");

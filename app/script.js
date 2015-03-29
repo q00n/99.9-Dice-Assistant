@@ -56,7 +56,7 @@ function send_command(cmd, data, callback)
             if (($("#ChatTab").is(":not(:visible)") || !is_focused) && typeof o == "object" && typeof f == "string" && f.indexOf("@" + data.user.friendlyName + ":") === 0)
                 send_command("GET_OPTION", {option: "chat.notification.enabled"}, function(response){
                     if (response.value)
-                        send_command("NOTIFICATE", {initiator: "chat", title: r, body: f.trim().replace("@"+data.user.friendlyName+":", ""), duration: 1e3});
+                        send_command("NOTIFICATE", {initiator: "chat", title: r, body: f.replace("@"+data.user.friendlyName+":", "").trim(), duration: 1e3});
                 });
 
             cached_function.apply(this, arguments);
@@ -126,11 +126,12 @@ function send_command(cmd, data, callback)
 {
     window.addEventListener("focus", function(){
         is_focused = true;
-            if (view.pipeevents.rainFadeTimer)
-                send_command("GET_OPTION", {option: "rain.notification.enabled"}, function(response){
-                    if (response.value)
-                        send_command("MUTE");
-                });
+
+        if (view.pipeevents.rainFadeTimer)
+            send_command("GET_OPTION", {option: "rain.notification.enabled"}, function(response){
+                if (response.value)
+                    send_command("MUTE");
+            });
     });
 
     window.addEventListener("blur", function(){
