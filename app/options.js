@@ -29,6 +29,9 @@ var bp = chrome.extension.getBackgroundPage();
     innerText_i18n($("label[for='rain-started-notificate']"), "rain_notification_enabled");
     innerText_i18n($("label[for='chat-to-me-notificate']"), "chat_notification_enabled");
 
+    innerText_i18n($("#rain-started-example"), "show_example");
+    innerText_i18n($("#chat-to-me-example"), "show_example");
+
     innerText_i18n($("label[for='rain-simple']"), "simple_notification");
     innerText_i18n($("label[for='rain-audio']"), "audio_notification");
     innerText_i18n($("label[for='rain-simple_audio']"), "simple_audio_notification");
@@ -46,14 +49,25 @@ var bp = chrome.extension.getBackgroundPage();
     }
 })();
 
+function send_command(cmd, data, callback)
+{
+    chrome.runtime.sendMessage({command: cmd, data: data}, function(response) {
+        typeof callback === "function" && callback(response);
+    });
+}
+
 (function init_rain_notificate_option()
 {
     $("#rain-started-notificate")[0].checked = bp.options.get("rain.notification.enabled");
 
+    $("#rain-started-example").on("click", show_example);
+
     $("#rain-started-options").toggle($("#rain-started-notificate")[0].checked);
+    $("#rain-started-example").toggle($("#rain-started-notificate")[0].checked);
 
     $("#rain-started-notificate").change(function () {
         $("#rain-started-options").toggle("fast");
+        $("#rain-started-example").toggle("fast");
         bp.options.set("rain.notification.enabled", this.checked);
     });
 
@@ -62,16 +76,24 @@ var bp = chrome.extension.getBackgroundPage();
     $("input[name=rr]:radio").change(function () {
         bp.options.set("rain.notification.type", this.id.split("-")[1]);
     });
+
+    function show_example(){
+        send_command("NOTIFICATE", {initiator: "rain", title: chrome.i18n.getMessage("ext_name"), body: chrome.i18n.getMessage("rain_started_test"), duration: 1e3});
+    }
 }());
 
 (function init_chat_notificate_option()
 {
     $("#chat-to-me-notificate")[0].checked = bp.options.get("chat.notification.enabled");
 
+    $("#chat-to-me-example").on("click", show_example);
+
     $("#chat-to-me-options").toggle($("#chat-to-me-notificate")[0].checked);
+    $("#chat-to-me-example").toggle($("#chat-to-me-notificate")[0].checked);
 
     $("#chat-to-me-notificate").change(function () {
         $("#chat-to-me-options").toggle("fast");
+        $("#chat-to-me-example").toggle("fast");
         bp.options.set("chat.notification.enabled", this.checked);
     });
 
@@ -80,6 +102,10 @@ var bp = chrome.extension.getBackgroundPage();
     $("input[name=ctmr]:radio").change(function () {
         bp.options.set("chat.notification.type", this.id.split("-")[1]);
     });
+
+    function show_example(){
+        send_command("NOTIFICATE", {initiator: "chat", title: "Monti", body: chrome.i18n.getMessage("chat_to_me_test"), duration: 1e3});
+    }
 }());
 
 (function init_chat_announced_bets_option(){

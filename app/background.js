@@ -52,8 +52,10 @@ var cached_osc, tab_data = {}, is_rain;
 
 (function init_handler()
 {
-    chrome.runtime.onMessageExternal.addListener(
-    function(request, sender, sendResponse) {
+    chrome.runtime.onMessageExternal.addListener(handler);
+    chrome.runtime.onMessage.addListener(handler);
+
+    function handler(request, sender, sendResponse) {
         switch (request.command) {
             case "NOTIFICATE":
                 is_rain = request.data.initiator == "rain";
@@ -93,7 +95,7 @@ var cached_osc, tab_data = {}, is_rain;
                 sendResponse(messages);
             break;
         }
-    });
+    }
 
     chrome.notifications.onClicked.addListener(notification_click);
     chrome.notifications.onClosed.addListener(notification_close);

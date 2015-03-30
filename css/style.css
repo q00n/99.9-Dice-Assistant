@@ -85,3 +85,13 @@ input[type="radio"] + label span {
 input[type="radio"]:checked + label span {
     background: url(/images/check_radio_sheet.png) -57px top no-repeat;
 }
+
+a{
+    color: #45CAE7;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+a:hover{
+    text-decoration: underline;
+}

@@ -13,6 +13,7 @@
         "simple_audio_notification": {"message": "Simple + audio notification"},
     "hide_announced_bets":           {"message": "Hide announced bets"},
     "command_menu_enabled":          {"message": "Command menu"},
+    "show_example":                  {"message": "Show example"},
 
     "rain_started":                  {"message": "Rain started!"},
     "balance":                       {"message": "Balance"},
@@ -24,5 +25,8 @@
     "unignore_deposit":              {"message": "Show deposits"},
     "clear_chat":                    {"message": "Clear chat"},
     "whois":                         {"message": "Who is..."},
-    "rules":                         {"message": "Rules"}
+    "rules":                         {"message": "Rules"},
+
+    "rain_started_test":             {"message": "This is an example of notification about rain started"},
+    "chat_to_me_test":               {"message": "This is an example of notification about income message"}
 }
