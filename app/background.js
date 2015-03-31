@@ -130,7 +130,7 @@ var cached_osc, tab_data = {}, is_rain;
     }
 }());
 
-(function init_insalled_event()
+(function init_installed_event()
 {
     chrome.runtime.onInstalled.addListener(function(details){
         if (details.reason != "install")
