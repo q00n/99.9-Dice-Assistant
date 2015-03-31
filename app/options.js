@@ -123,3 +123,8 @@ function send_command(cmd, data, callback)
         bp.options.set("chat.command-menu.enabled", this.checked);
     });
 }());
+
+(function init_first_install_event(){
+    if (window.location.hash && window.location.hash.split("#")[1] == "first-install")
+        $("#settings-header").before($("<div />").addClass("alert").html("<center><b>"+chrome.i18n.getMessage("first_install_message")+"</b></center>"));
+}());

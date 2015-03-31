@@ -129,3 +129,21 @@ var cached_osc, tab_data = {}, is_rain;
         tab_data[id] && delete tab_data[id];
     }
 }());
+
+(function init_insalled_event()
+{
+    chrome.runtime.onInstalled.addListener(function(details){
+        if (details.reason != "install")
+            return;
+        setTimeout(function(){
+            var optionsUrl = chrome.extension.getURL("options.html#first-install");
+
+            chrome.tabs.query({url: optionsUrl}, function(tabs) {
+                if (tabs.length)
+                    chrome.tabs.update(tabs[0].id, {active: true});
+                else
+                    chrome.tabs.create({url: optionsUrl});
+            });
+        }, 2500);
+    });
+}());
