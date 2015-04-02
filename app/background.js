@@ -26,7 +26,9 @@ var options = new Options({
     "chat.notification.type":       CHAT_NOTIFICATION_TYPE,
     "chat.audio-notification.type": CHAT_AUDIO_NOTIFICATION_TYPE,
     "chat.announced-bets.hide":     CHAT_ANNOUNCED_BETS_HIDE,
-    "chat.command-menu.enabled":    CHAT_COMMAND_MENU_ENABLED
+    "chat.command-menu.enabled":    CHAT_COMMAND_MENU_ENABLED,
+
+    "script.notification.type":     "simple"
 });
 
 var beep = (function() {
@@ -135,6 +137,7 @@ var cached_osc, tab_data = {}, is_rain;
     chrome.runtime.onInstalled.addListener(function(details){
         if (details.reason != "install")
             return;
+
         setTimeout(function(){
             var optionsUrl = chrome.extension.getURL("options.html#first-install");
 

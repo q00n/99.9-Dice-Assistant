@@ -18,7 +18,7 @@
  */
 
 var is_focused,
-    messages = ["ext_name","rain_started","balance","deposit","ignores","ignore_balance","unignore_balance","ignore_deposit","unignore_deposit","clear_chat","whois","rules"];
+    messages = ["ext_name","ext_loaded","rain_started","balance","deposit","ignores","ignore_balance","unignore_balance","ignore_deposit","unignore_deposit","clear_chat","whois","rules"];
 
 var i18n_messages = send_command("GET_MESSAGES", {messages: messages}, function (response){
     i18n_messages = response;
@@ -137,4 +137,10 @@ function send_command(cmd, data, callback)
     window.addEventListener("blur", function(){
         is_focused = false;
     });
+}());
+
+(function init_extension_onload(){
+    setTimeout(function(){
+        send_command("NOTIFICATE", {initiator: "script", title: i18n_messages.ext_name, body: i18n_messages.ext_loaded, duration: 1e3});
+    }, 1000);
 }());
