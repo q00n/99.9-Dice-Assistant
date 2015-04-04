@@ -115,10 +115,10 @@ var cached_osc, tab_data = {}, is_rain;
 
     function notification_click(id)
     {
-        tab_data[id] && chrome.tabs.get(tab_data[id].id, function callback() {
+        tab_data[id] && chrome.tabs.get(tab_data[id].id, function callback(tab) {
             if (!chrome.runtime.lastError){
-                chrome.windows.update(tab_data[id].windowId, {focused: true});
-                chrome.tabs.update(tab_data[id].id, {active: true});
+                chrome.windows.update(tab.windowId, {focused: true});
+                chrome.tabs.update(tab.id, {active: true});
             }
 
             chrome.notifications.clear(id, function(){});
