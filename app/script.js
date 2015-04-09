@@ -127,11 +127,7 @@ function send_command(cmd, data, callback)
     window.addEventListener("focus", function(){
         is_focused = true;
 
-        if (view.pipeevents.rainFadeTimer)
-            send_command("GET_OPTION", {option: "rain.notification.enabled"}, function(response){
-                if (response.value)
-                    send_command("MUTE");
-            });
+        send_command("MUTE");
     });
 
     window.addEventListener("blur", function(){
