@@ -9,4 +9,5 @@
 * Добавление меню команд
 
 Интернет-магазин Chrome: https://chrome.google.com/webstore/detail/hdagbpedejpckfjjlnenjipopjnaabcd.  
-Наша группа ВКонтакте: http://vk.com/dice.assistant.
+Интернет-магазин Opera: https://addons.opera.com/extensions/details/999-dice-assistant.  
+Наша страница ВКонтакте: http://vk.com/dice.assistant.
