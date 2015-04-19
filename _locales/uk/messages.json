@@ -30,5 +30,11 @@
     "rain_started_test":             {"message": "Це приклад сповіщення про початок роздачі"},
     "chat_to_me_test":               {"message": "Це приклад сповіщення про отримання повідомлення"},
     "first_install_message":         {"message": "Ви запустили розширення вперше, будь ласка, налаштуйте його та перезавантажте вкладки з 99.9% Dice!"},
-    "ext_loaded":                    {"message": "Розширення підключено"}
+    "ext_loaded":                    {"message": "Розширення підключено"},
+
+    "donate":                        {"message": "Спасибо за пожертвования!<br>$currency$ кошелек:",
+                                      "placeholders": {
+                                          "currency": { "content": "$1" }
+                                      }
+                                     }
 }

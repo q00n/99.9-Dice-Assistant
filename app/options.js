@@ -44,6 +44,10 @@ var bp = chrome.extension.getBackgroundPage();
 
     innerText_i18n($("label[for='command-menu']"), "command_menu_enabled");
 
+    $("#bitcoin #support-message").html(chrome.i18n.getMessage("donate", "Bitcoin"));
+    $("#dogecoin #support-message").html(chrome.i18n.getMessage("donate", "Dogecoin"));
+    $("#litecoin #support-message").html(chrome.i18n.getMessage("donate", "Litecoin"));
+
     function innerText_i18n(object, message){
         $(object).contents().last().replaceWith(chrome.i18n.getMessage(message));
     }
@@ -127,4 +131,13 @@ function send_command(cmd, data, callback)
 (function init_first_install_event(){
     if (window.location.hash && window.location.hash.split("#")[1] == "first-install")
         $("#settings-header").before($("<div />").addClass("alert").html("<center><b>"+chrome.i18n.getMessage("first_install_message")+"</b></center>"));
+}());
+
+(function init_tab_switch(){
+    $("#tabs .tab-links a").on("click", function(e) {
+        e.preventDefault();
+
+        $("#tabs " + $(this).attr("href")).show().siblings().hide();
+        $(this).parent("li").addClass("active").siblings().removeClass("active");
+    });
 }());

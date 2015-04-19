@@ -4,7 +4,7 @@ body {
 }
 
 #container {
-    max-width: 785px;
+    max-width: 450px;
     margin: 72px auto 0;
 }
 
@@ -13,9 +13,11 @@ h1 {
 }
 
 .box {
-    padding: 5px 20px 20px;
+    padding: 5px 20px 10px;
     background: #40464b;
-    border-radius: 8px;
+    border-radius: 3px;
+    color: #f2f2f2;
+    font-size: 14px;
 }
     .box .group{
         margin: 4px 0 8px;
@@ -42,7 +44,6 @@ input[type="checkbox"] {
 }
 
 input[type="checkbox"] + label {
-    color: #f2f2f2;
     font-size: 14px;
 }
 
@@ -114,4 +115,70 @@ a:hover{
     0% { -webkit-transform: scale(1); }
     50% { -webkit-transform: scale(0.9); }
     100% { -webkit-transform: scale(1); }
+}
+
+.tab-links{
+    margin: 0;
+    padding: 0;
+}
+
+.tab-links:after {
+    display: block;
+    clear: both;
+    content: '';
+}
+
+.tab-links li {
+    margin: 0px 5px;
+    float: left;
+    list-style: none;
+}
+
+.tab-links a {
+    padding: 10px 15px;
+    display: inline-block;
+    border-radius: 3px 3px 0px 0px;
+    background: #323232;
+    font-size: 16px;
+    font-weight: 600;
+    color: #F2F2F2;
+    transition: all linear 0.15s;
+}
+
+.tab-links a:hover {
+    background: #373737;
+    text-decoration: none;
+}
+
+li.active a, li.active a:hover {
+    background: #40464B;
+}
+
+.tab {
+    display: none;
+    padding-top: 14px;
+    padding-bottom: 8px;
+    overflow: auto;
+}
+
+.tab.active {
+    display: block;
+}
+
+.qr{
+    float: left;
+    margin-right: 15px;
+}
+
+.qr img{
+    border-radius: 3px;
+}
+
+.donate-wallet{
+    background: #F2F2F2;
+    color: #222222;
+    border-radius: 3px;
+    padding: 0.6em 0.6em;
+    font-size: 12px;
+    text-decoration: none;
 }
