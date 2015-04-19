@@ -32,7 +32,8 @@
     "first_install_message":         {"message": "You launch an extension for the first time, please configure it and reload tabs with 99.9% Dice!"},
     "ext_loaded":                    {"message": "Extension connected"},
 
-    "donate":                        {"message": "Thank you for donate!<br>$currency$ wallet:",
+    "donate_header":                 {"message": "Support 99.9% Dice Assistant"},
+    "donate_message":                {"message": "Thank you for your donation!<br>$currency$ wallet:",
                                       "placeholders": {
                                           "currency": { "content": "$1" }
                                       }

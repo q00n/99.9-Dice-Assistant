@@ -32,7 +32,8 @@
     "first_install_message":         {"message": "Ви запустили розширення вперше, будь ласка, налаштуйте його та перезавантажте вкладки з 99.9% Dice!"},
     "ext_loaded":                    {"message": "Розширення підключено"},
 
-    "donate":                        {"message": "Спасибо за пожертвования!<br>$currency$ кошелек:",
+    "donate_header":                 {"message": "Підтримайте 99.9% Dice Помічник"},
+    "donate_message":                {"message": "Дякую за пожертви!<br>$currency$ гаманець:",
                                       "placeholders": {
                                           "currency": { "content": "$1" }
                                       }

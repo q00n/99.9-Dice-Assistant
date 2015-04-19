@@ -32,7 +32,8 @@
     "first_install_message":         {"message": "Вы запустили расширение впервые, пожалуйста, настройте его и перезагрузите вкладки с 99.9% Dice!"},
     "ext_loaded":                    {"message": "Расширение подключено"},
 
-    "donate":                        {"message": "Спасибо за пожертвования!<br>$currency$ кошелек:",
+    "donate_header":                 {"message": "Поддержите 99.9% Dice Помощник"},
+    "donate_message":                {"message": "Спасибо за пожертвования!<br>$currency$ кошелек:",
                                       "placeholders": {
                                           "currency": { "content": "$1" }
                                       }

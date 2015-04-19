@@ -44,9 +44,10 @@ var bp = chrome.extension.getBackgroundPage();
 
     innerText_i18n($("label[for='command-menu']"), "command_menu_enabled");
 
-    $("#bitcoin #support-message").html(chrome.i18n.getMessage("donate", "Bitcoin"));
-    $("#dogecoin #support-message").html(chrome.i18n.getMessage("donate", "Dogecoin"));
-    $("#litecoin #support-message").html(chrome.i18n.getMessage("donate", "Litecoin"));
+    innerText_i18n($("#support-header"), "donate_header")
+    $("#bitcoin #support-message").html(chrome.i18n.getMessage("donate_message", "Bitcoin"));
+    $("#dogecoin #support-message").html(chrome.i18n.getMessage("donate_message", "Dogecoin"));
+    $("#litecoin #support-message").html(chrome.i18n.getMessage("donate_message", "Litecoin"));
 
     function innerText_i18n(object, message){
         $(object).contents().last().replaceWith(chrome.i18n.getMessage(message));
