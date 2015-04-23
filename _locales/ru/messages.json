@@ -33,7 +33,7 @@
     "ext_loaded":                    {"message": "Расширение подключено"},
 
     "donate_header":                 {"message": "Поддержите 99.9% Dice Помощник"},
-    "donate_message":                {"message": "Спасибо за пожертвования!<br>$currency$ кошелек:",
+    "donate_message":                {"message": "Спасибо за пожертвования!<br><br>$currency$ кошелек:",
                                       "placeholders": {
                                           "currency": { "content": "$1" }
                                       }

@@ -33,7 +33,7 @@
     "ext_loaded":                    {"message": "Розширення підключено"},
 
     "donate_header":                 {"message": "Підтримайте 99.9% Dice Помічник"},
-    "donate_message":                {"message": "Дякую за пожертви!<br>$currency$ гаманець:",
+    "donate_message":                {"message": "Дякую за пожертви!<br><br>$currency$ гаманець:",
                                       "placeholders": {
                                           "currency": { "content": "$1" }
                                       }

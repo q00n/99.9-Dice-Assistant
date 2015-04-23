@@ -33,7 +33,7 @@
     "ext_loaded":                    {"message": "Extension connected"},
 
     "donate_header":                 {"message": "Support 99.9% Dice Assistant"},
-    "donate_message":                {"message": "Thank you for your donation!<br>$currency$ wallet:",
+    "donate_message":                {"message": "Thank you for your donation!<br><br>$currency$ wallet:",
                                       "placeholders": {
                                           "currency": { "content": "$1" }
                                       }
