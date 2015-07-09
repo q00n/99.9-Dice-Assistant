@@ -50,6 +50,14 @@ var beep = (function() {
     };
 }());
 
+function time(){
+    var currentdate = new Date();
+
+    return currentdate.getHours()
+           + ":" + (currentdate.getMinutes() < 10 ? "0" : "") + currentdate.getMinutes()
+           + ":" + (currentdate.getSeconds() < 10 ? "0" : "") + currentdate.getSeconds();
+}
+
 var cached_osc, tab_data = {}, is_rain;
 
 (function init_handler()
@@ -110,6 +118,7 @@ var cached_osc, tab_data = {}, is_rain;
             iconUrl: "/icons/128.png",
             title:   data.title,
             message: data.body,
+            contextMessage: time(),
         }, function(id) { tab_data[id] = tab; });
     };
 
