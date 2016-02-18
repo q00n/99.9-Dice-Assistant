@@ -3,7 +3,7 @@
 
   "name": "__MSG_ext_name__",
   "description": "__MSG_ext_desc__",
-  "version": "0.4.3",
+  "version": "0.7.0",
   "default_locale": "en",
 
   "icons": {
@@ -19,7 +19,7 @@
 
   "content_scripts": [
     {
-      "matches": ["https://www.999dice.com/*"],
+      "matches": ["https://*.999dice.com/*", "https://*.999doge.com/*"],
       "js": ["/app/injector.js"],
       "run_at": "document_end"
     }
@@ -36,7 +36,7 @@
   },
 
   "externally_connectable": {
-    "matches": ["https://www.999dice.com/*"]
+    "matches": ["https://*.999dice.com/*", "https://*.999doge.com/*"]
   },
 
   "options_page": "options.html"
