@@ -18,7 +18,11 @@
  */
 
 var is_focused,
-    messages = ["ext_name","ext_loaded","rain_started","balance","deposit","ignores","ignore_balance","unignore_balance","ignore_deposit","unignore_deposit","clear_chat","whois","rules"];
+    messages = [
+        "ext_name","ext_loaded","rain_started","balance","deposit","ignores",
+        "ignore_balance","unignore_balance","ignore_deposit","unignore_deposit",
+        "clear_chat","whois","rules","show_rain","show_chat","ignore"
+    ];
 
 var i18n_messages = send_command("GET_MESSAGES", {messages: messages}, function (response){
     i18n_messages = response;
@@ -39,7 +43,7 @@ function send_command(cmd, data, callback)
         return function(n) {
             send_command("GET_OPTION", {option: "rain.notification.enabled"}, function(response){
                 if ($("#ChatTab").is(":not(:visible)") || !is_focused && response.value)
-                    send_command("NOTIFICATE", {initiator: "rain", title: i18n_messages.ext_name, body: i18n_messages.rain_started, duration: n*1e3});
+                    send_command("NOTIFICATE", {initiator: "rain", title: i18n_messages.ext_name, body: i18n_messages.rain_started, buttons: [{title: i18n_messages.show_rain}, {title: i18n_messages.ignore}], duration: n*1e3});
             });
 
             cached_function.apply(this, arguments);
@@ -56,7 +60,7 @@ function send_command(cmd, data, callback)
             if (($("#ChatTab").is(":not(:visible)") || !is_focused) && typeof o == "object" && typeof f == "string" && f.indexOf("@" + data.user.friendlyName + ":") === 0)
                 send_command("GET_OPTION", {option: "chat.notification.enabled"}, function(response){
                     if (response.value)
-                        send_command("NOTIFICATE", {initiator: "chat", title: r, body: f.replace("@"+data.user.friendlyName+":", "").trim(), duration: 1e3});
+                        send_command("NOTIFICATE", {initiator: "chat", title: r, body: f.replace("@"+data.user.friendlyName+":", "").trim(), buttons: [{title: i18n_messages.show_chat}], duration: 1e3});
                 });
 
             cached_function.apply(this, arguments);

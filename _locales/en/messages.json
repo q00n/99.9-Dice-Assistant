@@ -31,6 +31,9 @@
     "chat_to_me_test":               {"message": "This is an example of notification about income message"},
     "first_install_message":         {"message": "You launch an extension for the first time, please configure it and reload tabs with 99.9% Dice!"},
     "ext_loaded":                    {"message": "Extension connected"},
+    "show_rain":                     {"message": "Show rain"},
+    "show_chat":                     {"message": "Show chat"},
+    "ignore":                        {"message": "Ignore"},
 
     "donate_header":                 {"message": "Support 99.9% Dice Assistant"},
     "donate_message":                {"message": "Thank you for your donation!<br><br>$currency$ wallet:",

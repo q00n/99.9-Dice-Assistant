@@ -31,6 +31,8 @@ var options = new Options({
     "script.notification.type":     "simple"
 });
 
+var cached_osc, tab_data = {}, is_rain;
+
 var beep = (function() {
     var ctx = new window.AudioContext;
 
@@ -51,19 +53,17 @@ var beep = (function() {
 }());
 
 function time(){
-    var currentdate = new Date();
-
-    return currentdate.getHours()
-           + ":" + (currentdate.getMinutes() < 10 ? "0" : "") + currentdate.getMinutes()
-           + ":" + (currentdate.getSeconds() < 10 ? "0" : "") + currentdate.getSeconds();
+    return new Date().toLocaleTimeString();
 }
-
-var cached_osc, tab_data = {}, is_rain;
 
 (function init_handler()
 {
     chrome.runtime.onMessageExternal.addListener(handler);
     chrome.runtime.onMessage.addListener(handler);
+
+    chrome.notifications.onClicked.addListener(notification_clicked);
+    chrome.notifications.onClosed.addListener(notification_closed);
+    chrome.notifications.onButtonClicked.addListener(notification_button_clicked);
 
     function handler(request, sender, sendResponse) {
         switch (request.command) {
@@ -71,29 +71,21 @@ var cached_osc, tab_data = {}, is_rain;
                 is_rain = request.data.initiator == "rain";
                 switch (options.get(request.data.initiator+".notification.type")) {
                     case "simple":
-                        show_notification(request.data, {id: sender.tab.id, windowId: sender.tab.windowId});
+                        show_notification(request.data, {id: sender.tab.id, windowId: sender.tab.windowId, initiator: request.data.initiator});
                     break;
                     case "audio":
                         if (is_rain && cached_osc) return;
-                        beep(request.data.duration,
-                            options.get(request.data.initiator+".audio-notification.type"),
-                            is_rain && function(osc){cached_osc = osc},
-                            is_rain && function(){cached_osc = null}
-                        );
+                        audio_notification(request.data.duration, request.data.initiator);
                     break;
                     case "simple_audio":
                         if (is_rain && cached_osc) return;
-                        show_notification(request.data, {id: sender.tab.id, windowId: sender.tab.windowId});
-                        beep(request.data.duration,
-                             options.get(request.data.initiator+".audio-notification.type"),
-                             is_rain && function(osc){cached_osc = osc},
-                             is_rain && function(){cached_osc = null}
-                        );
+                        show_notification(request.data, {id: sender.tab.id, windowId: sender.tab.windowId, initiator: request.data.initiator});
+                        audio_notification(request.data.duration, request.data.initiator);
                     break;
                 }
             break;
             case "MUTE":
-                cached_osc && (cached_osc.stop(0), cached_osc = null);
+                mute();
             break;
             case "GET_OPTION":
                 sendResponse({value: options.get(request.data.option)});
@@ -107,22 +99,36 @@ var cached_osc, tab_data = {}, is_rain;
         }
     }
 
-    chrome.notifications.onClicked.addListener(notification_click);
-    chrome.notifications.onClosed.addListener(notification_close);
+    function audio_notification(duration, initiator)
+    {
+        beep(duration,
+            options.get(initiator+".audio-notification.type"),
+            is_rain && function(osc) { cached_osc = osc },
+            is_rain && function(){ cached_osc = null }
+        );
+    }
 
     function show_notification(data, tab)
     {
         chrome.notifications.create("",
         {
-            type:    "basic",
-            iconUrl: "/icons/128.png",
-            title:   data.title,
-            message: data.body,
+            type:           "basic",
+            iconUrl:        "/icons/128.png",
+            title:          data.title,
+            message:        data.body,
             contextMessage: time(),
-        }, function(id) { tab_data[id] = tab; });
+            buttons:        data.buttons,
+        }, function(id) {
+            tab_data[id] = tab;
+        });
     };
 
-    function notification_click(id)
+    function mute()
+    {
+        cached_osc && (cached_osc.stop(0), cached_osc = null);
+    }
+
+    function notification_clicked(id)
     {
         tab_data[id] && chrome.tabs.get(tab_data[id].id, function callback(tab) {
             if (!chrome.runtime.lastError){
@@ -131,13 +137,26 @@ var cached_osc, tab_data = {}, is_rain;
             }
 
             chrome.notifications.clear(id, function(){});
-            notification_close(id);
+            notification_closed(id);
         });
     }
 
-    function notification_close(id)
+    function notification_closed(id)
     {
         tab_data[id] && delete tab_data[id];
+    }
+
+    function notification_button_clicked(id, button)
+    {
+        if (tab_data[id].initiator == 'rain'){
+            mute();
+            if (button == 0)
+                notification_clicked(id);
+        }
+        else if (tab_data[id].initiator == 'chat'){
+            if (button == 0)
+                notification_clicked(id);
+        }
     }
 }());
 

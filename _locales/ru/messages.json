@@ -31,6 +31,9 @@
     "chat_to_me_test":               {"message": "Это пример оповещения о получении сообщения"},
     "first_install_message":         {"message": "Вы запустили расширение впервые, пожалуйста, настройте его и перезагрузите вкладки с 99.9% Dice!"},
     "ext_loaded":                    {"message": "Расширение подключено"},
+    "show_rain":                     {"message": "Показать раздачу"},
+    "show_chat":                     {"message": "Показать чат"},
+    "ignore":                        {"message": "Игнорировать"},
 
     "donate_header":                 {"message": "Поддержите 99.9% Dice Помощник"},
     "donate_message":                {"message": "Спасибо за пожертвования!<br><br>$currency$ кошелек:",

@@ -83,7 +83,7 @@ function send_command(cmd, data, callback)
     });
 
     function show_example(){
-        send_command("NOTIFICATE", {initiator: "rain", title: chrome.i18n.getMessage("ext_name"), body: chrome.i18n.getMessage("rain_started_test"), duration: 1e3});
+        send_command("NOTIFICATE", {initiator: "rain", title: chrome.i18n.getMessage("ext_name"), body: chrome.i18n.getMessage("rain_started_test"), buttons: [{title: chrome.i18n.getMessage("show_rain")}, {title: chrome.i18n.getMessage("ignore")}], duration: 1e3});
     }
 }());
 
@@ -109,7 +109,7 @@ function send_command(cmd, data, callback)
     });
 
     function show_example(){
-        send_command("NOTIFICATE", {initiator: "chat", title: "Monti", body: chrome.i18n.getMessage("chat_to_me_test"), duration: 1e3});
+        send_command("NOTIFICATE", {initiator: "chat", title: "Monti", body: chrome.i18n.getMessage("chat_to_me_test"), buttons: [{title: chrome.i18n.getMessage("show_chat")}], duration: 1e3});
     }
 }());
 
