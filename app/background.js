@@ -110,16 +110,25 @@ function time(){
 
     function show_notification(data, tab)
     {
-        chrome.notifications.create("",
-        {
+        notification_options = {
             type:           "basic",
             iconUrl:        "/icons/128.png",
             title:          data.title,
             message:        data.body,
             contextMessage: time(),
             buttons:        data.buttons,
-        }, function(id) {
-            tab_data[id] = tab;
+        };
+
+        chrome.notifications.create(notification_options, function onCreatedCallback(id) {
+            var lastError = chrome.runtime.lastError;
+            if (lastError && lastError.message === 'Adding buttons to notifications is not supported.') {
+                delete notification_options.buttons;
+                chrome.notifications.create(notification_options, onCreatedCallback);
+            } else if (lastError) {
+                console.warn('Failed to create notification: ' + lastError.message);
+            } else {
+                tab_data[id] = tab;
+            }
         });
     };
 
@@ -152,6 +161,8 @@ function time(){
             mute();
             if (button == 0)
                 notification_clicked(id);
+            else if (button == 1)
+                notification_closed(id);
         }
         else if (tab_data[id].initiator == 'chat'){
             if (button == 0)
